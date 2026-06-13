@@ -88,7 +88,9 @@ public AudioSource horseAudio;
         lastRightPos = rightHand.position;
     }
 
-    void UpdateHorseSound()
+float horseSoundTimer = 0f;
+
+void UpdateHorseSound()
 {
     if (horseAudio == null)
         return;
@@ -97,12 +99,23 @@ public AudioSource horseAudio;
     {
         if (!horseAudio.isPlaying)
         {
-            horseAudio.loop = true;
             horseAudio.Play();
+            horseSoundTimer = 0f;
+        }
+
+        horseSoundTimer += Time.deltaTime;
+
+        if (horseSoundTimer >= 10f)
+        {
+            horseAudio.Stop();
+            horseAudio.Play();
+            horseSoundTimer = 0f;
         }
     }
     else
     {
+        horseSoundTimer = 0f;
+
         if (horseAudio.isPlaying)
         {
             horseAudio.Stop();
