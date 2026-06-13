@@ -8,9 +8,24 @@ public class ArrowStick : MonoBehaviour
 
     private bool stuck = false;
 
+    [Header("Audio")]
+    public AudioClip spawnClip;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
+        if (spawnClip != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                spawnClip,
+                transform.position,
+                1f
+            );
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -19,7 +34,7 @@ public class ArrowStick : MonoBehaviour
 
         stuck = true;
 
-        // Останавливаем физику  
+        // Останавливаем физику
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 

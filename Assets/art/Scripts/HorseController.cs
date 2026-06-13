@@ -4,7 +4,8 @@ public class HorseController : MonoBehaviour
 {
     [Header("Movement")]
     public float currentSpeed = 0f;
-
+    [Header("Audio")]
+public AudioSource horseAudio;
     public float maxForwardSpeed = 20f;
 
     // Назад отключен
@@ -77,6 +78,8 @@ public class HorseController : MonoBehaviour
     {
         HandleTurning();
 
+        UpdateHorseSound();
+
         HandleSpeed();
 
         UpdateAnimation();
@@ -85,6 +88,27 @@ public class HorseController : MonoBehaviour
         lastRightPos = rightHand.position;
     }
 
+    void UpdateHorseSound()
+{
+    if (horseAudio == null)
+        return;
+
+    if (currentSpeed > 0.1f)
+    {
+        if (!horseAudio.isPlaying)
+        {
+            horseAudio.loop = true;
+            horseAudio.Play();
+        }
+    }
+    else
+    {
+        if (horseAudio.isPlaying)
+        {
+            horseAudio.Stop();
+        }
+    }
+}
     void FixedUpdate()
     {
         MoveHorse();
